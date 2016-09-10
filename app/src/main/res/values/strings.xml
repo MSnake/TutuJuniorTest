@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">TutuJuniorTest</string>
+    <string name="app_name">JuniorTest</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="about_item">О приложении</string>
+    <string name="timing_item">Расписание</string>
+    <string name="menu_header_text">TuTu junior Application</string>
 </resources>
