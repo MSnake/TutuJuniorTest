@@ -7,4 +7,11 @@
     <string name="about_item">О приложении</string>
     <string name="timing_item">Расписание</string>
     <string name="menu_header_text">TuTu junior Application</string>
+    <string name="departure_station_title">Станция отправления:</string>
+    <string name="arrivel_station_title">Станция прибытия:</string>
+    <string name="enter_station_name">Введите название станции</string>
+    <string name="about_text">Приложение носит ознакомительный характер и предназначено для первоначальной оценки возможностей разработчика</string>
+    <string name="author_app_title">Разработчик:</string>
+    <string name="author_app_name">Шигаев Александр Константинович</string>
+    <string name="action_settings">settings</string>
 </resources>
