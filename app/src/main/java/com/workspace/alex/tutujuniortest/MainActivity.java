@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
             // при первом запуске программы
@@ -47,11 +48,6 @@ public class MainActivity extends AppCompatActivity
                     JSONDataLoad.initDatas(getApplicationContext());
                     Log.d(TAG, "Инициализация станций прибытия и отправления прошла успешно.");
                 }
-                //Выводим фрагмент с выбором станций на экран
-                Fragment fragment = new TimingFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-//                fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).commit();
 
             } catch (IOException e) {
                 Log.d(TAG, "Файл с настройками не найден");
@@ -68,10 +64,18 @@ public class MainActivity extends AppCompatActivity
             ArrayList<CityModel> depMod = (ArrayList<CityModel>) savedInstanceState.getSerializable(DEPARTURE_DATA);
             DepartureData.getInstance().setData(depMod);
         }
-
         Log.d(TAG, "Кол-во элементов в датах: отправление "+ArrivelData.getInstance().getData().size()+" приыбытие"+DepartureData.getInstance().getData().size());
 
-        setContentView(R.layout.activity_main);
+
+        //Выводим фрагмент с выбором станций на экран
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
+        if (fragment ==null)
+        {
+            fragment = new TimingFragment();
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).commit();
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -120,7 +124,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Действие при нажатии на пункт меню
         Log.d(TAG, "Нажатие сработало");
-        Fragment fragment = null;
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
         int id = item.getItemId();
 
         if (id == R.id.nav_timing) {
@@ -131,22 +136,24 @@ public class MainActivity extends AppCompatActivity
             fragment= new AboutFragment();
 
         }
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).commit();
 
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst, fragment).commit();
+        //Выводим фрагмент с выбором на экран
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
+//        if (fragment == null)
+//        {
+//            fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst, fragment).commit();
+//            Log.d(TAG, "Фрагмент успешно добавлен");
+//        } else {
+//
+//            Log.d(TAG, "Не удалость отобразить фрагмент");
+//        }
 
-
-        if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-//            fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).commit();
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
-            Log.d(TAG, "Новый фрагмент успешно добавлен");
-
-        } else {
-
-            Log.d(TAG, "Не удалость отобразить фрагмент");
-        }
-
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }
