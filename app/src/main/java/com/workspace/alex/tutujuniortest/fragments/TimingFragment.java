@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.workspace.alex.tutujuniortest.R;
  */
 public class TimingFragment extends Fragment {
 
+    private static final String TAG = "TimingFragment";
     private TextView departureTitle;
 
     @Override
@@ -35,9 +37,11 @@ public class TimingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Fragment fragment = new SearchFragment();
-                FragmentManager fragmentManager = getFragmentManager();
+                FragmentManager fragmentManager = getActivity().getFragmentManager();
+                Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
 //                fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).addToBackStack(null).commit();
+                Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
             }
         });
         return v;

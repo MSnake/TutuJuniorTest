@@ -2,6 +2,7 @@ package com.workspace.alex.tutujuniortest.models;
 
 import android.graphics.Point;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  *
  * Created by Alex on 08.09.2016.
  */
-public class CityModel {
+public class CityModel implements Serializable {
 
     private String country;
     private float[] point;
