@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.workspace.alex.tutujuniortest.data.ArrivelData;
 import com.workspace.alex.tutujuniortest.data.DepartureData;
@@ -31,12 +32,108 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MainActivity"; // тег для автоматизированного тестирования
     private static final String ARRIVEL_DATA="arrivelData"; //метка для сохранения и восстоановления данных о станциях отправления
     private static final String DEPARTURE_DATA="departureData"; //метка для сохранения и восстоановления данных о станциях прибытия
+    private FragmentManager fragmentManager;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        updateState(savedInstanceState);
+
+        //Выводим фрагмент с выбором станций на экран
+        fragmentManager = getFragmentManager();
+        Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
+
+        TimingFragment fragment = new TimingFragment();
+        fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst, fragment).commit();
+        Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
+
+        initNavigationBars();
+
+        //Играем с изменение иконок тулбара в зависимости от заполненности fragment manager
+//        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+//            @Override
+//            public void onBackStackChanged() {
+//                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+//                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            onBackPressed();
+//                            int fragmentBackStackCount = fragmentManager.getBackStackEntryCount();
+//                            while ( fragmentBackStackCount> 0){
+//                                fragmentManager.popBackStack();
+//                                fragmentBackStackCount--;
+//                            }
+//                        }
+//                    });
+//                } else {
+//                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//                    toggle.syncState();
+//                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            drawer.openDrawer(GravityCompat.START);
+//                        }
+//                    });
+//                }
+//            }
+//        });
+
+    }
+
+
+    /**
+     * Инициализация навигации
+     */
+    private void initNavigationBars()
+    {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setEnabled(true);
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "Сохранение состояния в частности даты");
+        outState.putSerializable(ARRIVEL_DATA, ArrivelData.getInstance().getData());
+        outState.putSerializable(DEPARTURE_DATA, DepartureData.getInstance().getData());
+
+    }
+
+    /**
+     * Обновление состояний
+     * @param savedInstanceState
+     */
+    private void updateState(Bundle savedInstanceState)
+    {
         if (savedInstanceState == null) {
             // при первом запуске программы
             try {
@@ -65,56 +162,7 @@ public class MainActivity extends AppCompatActivity
             DepartureData.getInstance().setData(depMod);
         }
         Log.d(TAG, "Кол-во элементов в датах: отправление "+ArrivelData.getInstance().getData().size()+" приыбытие"+DepartureData.getInstance().getData().size());
-
-
-        //Выводим фрагмент с выбором станций на экран
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
-        if (fragment ==null)
-        {
-            fragment = new TimingFragment();
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).commit();
-        }
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setEnabled(true);
-
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d(TAG, "Сохранение состояния");
-        outState.putSerializable(ARRIVEL_DATA, ArrivelData.getInstance().getData());
-        outState.putSerializable(DEPARTURE_DATA, DepartureData.getInstance().getData());
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-
 
 
 
@@ -124,34 +172,22 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Действие при нажатии на пункт меню
         Log.d(TAG, "Нажатие сработало");
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
+        fragmentManager = getFragmentManager();
         int id = item.getItemId();
-
+        Fragment fragment = null;
         if (id == R.id.nav_timing) {
             fragment = new TimingFragment();
         } else
         if (id == R.id.nav_about)
         {
-            fragment= new AboutFragment();
+
+            fragment = new AboutFragment();
 
         }
-        fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).commit();
+        Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).addToBackStack(null).commit();
 
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst, fragment).commit();
-        //Выводим фрагмент с выбором на экран
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
-//        if (fragment == null)
-//        {
-//            fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst, fragment).commit();
-//            Log.d(TAG, "Фрагмент успешно добавлен");
-//        } else {
-//
-//            Log.d(TAG, "Не удалость отобразить фрагмент");
-//        }
-
+        Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -52,7 +52,7 @@ public class StationInfoFragment extends Fragment {
         stationCountry.setText(station.getCountry());
         stationRegion.setText(station.getRegion());
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return v;
     }
 
     public static StationInfoFragment newInstance(StationModel model)
