@@ -13,5 +13,9 @@
     <string name="about_text">Приложение носит ознакомительный характер и предназначено для первоначальной оценки возможностей разработчика</string>
     <string name="author_app_title">Разработчик:</string>
     <string name="author_app_name">Шигаев Александр Константинович</string>
-    <string name="action_settings">settings</string>
+    <string name="station_title">Станция:</string>
+    <string name="country_title">Страна:</string>
+    <string name="station_info_title">Информация:</string>
+    <string name="city_title">Город:</string>
+    <string name="region_title">Регион:</string>
 </resources>

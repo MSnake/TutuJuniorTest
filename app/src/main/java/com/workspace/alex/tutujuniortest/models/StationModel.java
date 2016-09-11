@@ -2,12 +2,14 @@ package com.workspace.alex.tutujuniortest.models;
 
 import android.graphics.Point;
 
+import java.io.Serializable;
+
 /**
  * Модель станции города
  * Created by Alex on 08.09.2016.
  *
  */
-public class StationModel {
+public class StationModel implements Serializable {
     private String country;
     private float[] point;
     private String district;
