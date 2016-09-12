@@ -19,6 +19,7 @@ import com.workspace.alex.tutujuniortest.fragments.TimingFragment;
 import com.workspace.alex.tutujuniortest.models.CityModel;
 import com.workspace.alex.tutujuniortest.models.StationModel;
 import com.workspace.alex.tutujuniortest.models.TripModel;
+import com.workspace.alex.tutujuniortest.utils.AsyncTaskLoading;
 import com.workspace.alex.tutujuniortest.utils.JSONDataLoad;
 
 import org.json.JSONException;
@@ -124,20 +125,14 @@ public class MainActivity extends AppCompatActivity
     {
         if (savedInstanceState == null) {
             // при первом запуске программы
-            try {
                 //Производим загрузку данных из JSON в случае если
                 // хранилища данных пусты
-                if (ArrivelData.getInstance().getData().isEmpty())
-                {
+            if (ArrivelData.getInstance().getData().isEmpty())
+            {
 
-                    JSONDataLoad.initDatas(getApplicationContext());
-                    Log.d(TAG, "Инициализация станций прибытия и отправления прошла успешно.");
-                }
-
-            } catch (IOException e) {
-                Log.d(TAG, "Файл с настройками не найден");
-            } catch (JSONException e) {
-                Log.d(TAG, "JSON файл не обработан");
+                AsyncTaskLoading loadJson = new AsyncTaskLoading();
+                loadJson.execute(getApplication());
+                Log.d(TAG, "Инициализация станций прибытия и отправления прошла успешно.");
             }
         }
         else
