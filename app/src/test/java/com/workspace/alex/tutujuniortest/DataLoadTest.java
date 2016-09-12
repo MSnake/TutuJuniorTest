@@ -19,26 +19,17 @@ import java.io.IOException;
 /**
  * Created by Alex on 08.09.2016.
  */
-public class DataLoadTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class DataLoadTest extends Assert {
 
 
     private MainActivity mActivity;
 
-    public DataLoadTest(){
-        super(MainActivity.class);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mActivity = getActivity();
+    @Before
+    public void setUp() throws Exception {
+        mActivity = new MainActivity();
         JSONDataLoad.initDatas(mActivity.getApplicationContext());
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     @Test
     public void initDatas() {

@@ -48,48 +48,29 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentManager = getFragmentManager();
 
         updateState(savedInstanceState);
         //Выводим фрагмент с выбором станций на экран
-        fragmentManager = getFragmentManager();
         Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
 
-        TimingFragment fragment = new TimingFragment();
-        fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst, fragment).commit();
+        Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
+
+        if (fragment == null)
+        {
+            fragment = new TimingFragment();
+            fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst,fragment).commit();
+        }
+        else
+        {
+            fragment = new TimingFragment();
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst,fragment).commit();
+        }
+//        TimingFragment fragment = new TimingFragment();
+//        fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst, fragment).commit();
         Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
 
         initNavigationBars();
-
-        //Играем с изменение иконок тулбара в зависимости от заполненности fragment manager
-//        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-//            @Override
-//            public void onBackStackChanged() {
-//                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-//                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            onBackPressed();
-//                            int fragmentBackStackCount = fragmentManager.getBackStackEntryCount();
-//                            while ( fragmentBackStackCount> 0){
-//                                fragmentManager.popBackStack();
-//                                fragmentBackStackCount--;
-//                            }
-//                        }
-//                    });
-//                } else {
-//                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//                    toggle.syncState();
-//                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            drawer.openDrawer(GravityCompat.START);
-//                        }
-//                    });
-//                }
-//            }
-//        });
-
     }
 
 
