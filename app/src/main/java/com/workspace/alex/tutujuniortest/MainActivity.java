@@ -58,12 +58,12 @@ public class MainActivity extends AppCompatActivity
 
         if (fragment == null)
         {
+
             fragment = new TimingFragment();
             fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst,fragment).commit();
         }
         else
         {
-            fragment = new TimingFragment();
             fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst,fragment).commit();
         }
         Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());

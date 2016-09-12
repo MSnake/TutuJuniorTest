@@ -18,13 +18,11 @@ import android.widget.TextView;
 
 import com.workspace.alex.tutujuniortest.R;
 import com.workspace.alex.tutujuniortest.SearchActivity;
-import com.workspace.alex.tutujuniortest.data.ArrivelData;
 import com.workspace.alex.tutujuniortest.data.DepartureData;
 import com.workspace.alex.tutujuniortest.models.StationModel;
 import com.workspace.alex.tutujuniortest.models.TripModel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -109,23 +107,7 @@ public class TimingFragment extends Fragment {
         return v;
     }
 
-
-
-//    private void initDatePicker(){
-//        Calendar newCalendar=Calendar.getInstance(); // объект типа Calendar мы будем использовать для получения даты
-//        final SimpleDateFormat dateFormat=new SimpleDateFormat("dd.MM.yyyy"); // это строка нужна для дальнейшего преобразования даты в строку
-//        //создаем объект типа DatePickerDialog и инициализируем его конструктор обработчиком события выбора даты и данными для даты по умолчанию
-//        datePickerDlg=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-//            // функция onDateSet обрабатывает шаг 2: отображает выбранные нами данные в элементе EditText
-//            @Override
-//            public void onDateSet(DatePickerFragment view, int year, int monthOfYear, int dayOfMonth) {
-//                Calendar newCal=Calendar.getInstance();
-//                newCal.set(year,monthOfYear,dayOfMonth);
-//                dateEditText.setText(dateFormat.format(newCal.getTime()));
-//            }
-//        },newCalendar.get(Calendar.YEAR),newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-//    }
-
+    
     /**
      * Метод обновления информации на View
      */

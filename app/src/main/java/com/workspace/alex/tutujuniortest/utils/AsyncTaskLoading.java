@@ -8,6 +8,7 @@ import org.json.JSONException;
 import java.io.IOException;
 
 /**
+ * Отдельный поток для загрузки данных
  * Created by Alex on 13.09.2016.
  */
 public class AsyncTaskLoading extends AsyncTask<Context, Void, Void> {
