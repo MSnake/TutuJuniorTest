@@ -1,7 +1,5 @@
 package com.workspace.alex.tutujuniortest.fragments;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -11,8 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -107,7 +103,7 @@ public class TimingFragment extends Fragment {
         return v;
     }
 
-    
+
     /**
      * Метод обновления информации на View
      */
@@ -197,27 +193,6 @@ public class TimingFragment extends Fragment {
         }
 
 
-//            StationModel currentStation;
-//            if (requestCode == REQUEST_DEPARTUTE_STATION)
-//            {
-//                currentStation = (StationModel) data.getSerializableExtra(SearchFragment.EXTRA_FOUND_ITEM);
-//                //Обновляем модель поездки
-//                TripModel.getInstance().setFromStation(currentStation);
-//            }
-//            if (requestCode ==REQUEST_ARRIVEL_STATION)
-//            {
-//                currentStation = (StationModel) data.getSerializableExtra(SearchFragment.EXTRA_FOUND_ITEM);
-//                //Обновляем модель поездки
-//                TripModel.getInstance().setToStation(currentStation);
-//            }
-//
-//            if (requestCode == REQUEST_DATE)
-//            {
-//            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-//            TripModel.getInstance().setDateOfTrip(date);
-//            }
-//
-//        updateView();
     }
 
 

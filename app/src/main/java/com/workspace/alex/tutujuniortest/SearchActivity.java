@@ -1,12 +1,10 @@
 package com.workspace.alex.tutujuniortest;
 
-import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 

@@ -1,6 +1,5 @@
 package com.workspace.alex.tutujuniortest.models;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**

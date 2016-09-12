@@ -6,27 +6,22 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.workspace.alex.tutujuniortest.MainActivity;
 import com.workspace.alex.tutujuniortest.R;
 import com.workspace.alex.tutujuniortest.data.DepartureData;
 import com.workspace.alex.tutujuniortest.models.CityModel;
 import com.workspace.alex.tutujuniortest.models.StationModel;
-import com.workspace.alex.tutujuniortest.models.TripModel;
 
 import java.util.ArrayList;
 

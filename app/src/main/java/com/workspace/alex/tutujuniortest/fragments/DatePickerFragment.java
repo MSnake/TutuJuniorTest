@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.workspace.alex.tutujuniortest.R;
-import com.workspace.alex.tutujuniortest.models.TripModel;
 
 import java.util.Calendar;
 import java.util.Date;

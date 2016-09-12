@@ -1,6 +1,5 @@
 package com.workspace.alex.tutujuniortest.models;
 
-import android.graphics.Point;
 
 import java.io.Serializable;
 import java.util.ArrayList;

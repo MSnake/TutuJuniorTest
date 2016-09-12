@@ -20,11 +20,7 @@ import com.workspace.alex.tutujuniortest.models.CityModel;
 import com.workspace.alex.tutujuniortest.models.StationModel;
 import com.workspace.alex.tutujuniortest.models.TripModel;
 import com.workspace.alex.tutujuniortest.utils.AsyncTaskLoading;
-import com.workspace.alex.tutujuniortest.utils.JSONDataLoad;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
