@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.workspace.alex.tutujuniortest.data.ArrivelData;
 import com.workspace.alex.tutujuniortest.data.DepartureData;
@@ -66,8 +65,6 @@ public class MainActivity extends AppCompatActivity
             fragment = new TimingFragment();
             fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst,fragment).commit();
         }
-//        TimingFragment fragment = new TimingFragment();
-//        fragmentManager.beginTransaction().add(R.id.fragmentContainerFirst, fragment).commit();
         Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
 
         initNavigationBars();
@@ -105,6 +102,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    //Сохраняем состояние при поворотах или простое
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -186,7 +184,8 @@ public class MainActivity extends AppCompatActivity
                 break;
             //Нажатие элемента меню Выйти
             case R.id.nav_exit:
-                finish();
+                this.finish();
+                System.exit(0);
                 break;
             default:
                 Log.d(TAG,"Выбранный пункт меню ничему не соответствует");
