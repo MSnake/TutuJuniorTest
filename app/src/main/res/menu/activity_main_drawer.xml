@@ -10,6 +10,10 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_about"
             android:title="@string/about_item" />
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_action_exit"
+            android:title="@string/exit_item" />
     </group>
 
 

@@ -172,16 +172,24 @@ public class MainActivity extends AppCompatActivity
         // Действие при нажатии на пункт меню
         Log.d(TAG, "Нажатие сработало");
         fragmentManager = getFragmentManager();
-        int id = item.getItemId();
+        //int id = item.getItemId();
         Fragment fragment = null;
-        if (id == R.id.nav_timing) {
-            fragment = new TimingFragment();
-        } else
-        if (id == R.id.nav_about)
+        switch (item.getItemId())
         {
-
-            fragment = new AboutFragment();
-
+            //Нажатие элемента меню Расписание
+            case R.id.nav_timing:
+                fragment = new TimingFragment();
+                break;
+            //Нажатие элемента меню О приложении
+            case R.id.nav_about:
+                fragment = new AboutFragment();
+                break;
+            //Нажатие элемента меню Выйти
+            case R.id.nav_exit:
+                finish();
+                break;
+            default:
+                Log.d(TAG,"Выбранный пункт меню ничему не соответствует");
         }
         Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
         fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).addToBackStack(null).commit();
