@@ -6,7 +6,6 @@ import android.util.Log;
 import com.workspace.alex.tutujuniortest.R;
 import com.workspace.alex.tutujuniortest.data.ArrivelData;
 import com.workspace.alex.tutujuniortest.data.DepartureData;
-import com.workspace.alex.tutujuniortest.data.TuTuData;
 import com.workspace.alex.tutujuniortest.models.CityModel;
 import com.workspace.alex.tutujuniortest.models.StationModel;
 

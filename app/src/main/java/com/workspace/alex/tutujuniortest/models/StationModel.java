@@ -1,6 +1,5 @@
 package com.workspace.alex.tutujuniortest.models;
 
-import android.graphics.Point;
 
 import java.io.Serializable;
 
@@ -10,6 +9,7 @@ import java.io.Serializable;
  *
  */
 public class StationModel implements Serializable {
+
     private String country;
     private float[] point;
     private String district;
@@ -21,6 +21,12 @@ public class StationModel implements Serializable {
 
     public StationModel(){
         this.point = new float[2];
+        this.country = "";
+        this.district = "";
+        this.id = 0;
+        this.city = "";
+        this.region="";
+        this.station="";
     }
 
 
