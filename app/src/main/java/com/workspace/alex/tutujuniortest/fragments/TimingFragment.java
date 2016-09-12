@@ -1,16 +1,32 @@
 package com.workspace.alex.tutujuniortest.fragments;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.workspace.alex.tutujuniortest.R;
+import com.workspace.alex.tutujuniortest.SearchActivity;
+import com.workspace.alex.tutujuniortest.data.ArrivelData;
+import com.workspace.alex.tutujuniortest.data.DepartureData;
+import com.workspace.alex.tutujuniortest.models.StationModel;
+import com.workspace.alex.tutujuniortest.models.TripModel;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Фрагмент отображения интерфейса расписания
@@ -18,12 +34,20 @@ import com.workspace.alex.tutujuniortest.R;
  */
 public class TimingFragment extends Fragment {
 
-    private static final String TAG = "TimingFragment";
-    private TextView departureTitle;
+    private static final String TAG = "TimingFragment"; //Тег для logCat
+    private static final String DIALOG_DATE="date";
+    private static final int REQUEST_DEPARTUTE_STATION = 0; //Код для запроса выбора станции отправления
+    private static final int REQUEST_ARRIVEL_STATION = 1;   //Код для запроса выбора станции прибытия
+    public static final int REQUEST_DATE = 2;          //Код для запроса выбора даты отправления
+    private TextView departureTitle;    //виджет станции отправления
+    private TextView arrivelTitle;      //виджет станции прибытия
+    private EditText dateEditText;      //виджет даты отправления
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "Вызов метода onCreate фрагмента");
         setRetainInstance(true);
     }
 
@@ -32,20 +56,189 @@ public class TimingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_timing,container,false);
+        Log.d(TAG, "Создание представления фрагмента");
+        //Инициализация полей с выбором станций отправления и прибытия
         departureTitle = (TextView) v.findViewById(R.id.departure_station_name);
+        arrivelTitle = (TextView) v.findViewById(R.id.arrivel_station_name);
+        dateEditText = (EditText) v.findViewById(R.id.date_pick_editText);
+
+        Log.d(TAG, "Виджеты фрагмента инициализированы");
+        //Обновление view
+        updateView();
+
+        departureTitle.setFocusable(false);
+        //Обрабатка клика по полю станции отправления
         departureTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new SearchFragment();
-                FragmentManager fragmentManager = getActivity().getFragmentManager();
-                Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
-//                fragment = fragmentManager.findFragmentById(R.id.fragmentContainerFirst);
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainerFirst, fragment).addToBackStack(null).commit();
-                Log.d(TAG,"Количество транзакций в ФМ "+fragmentManager.getBackStackEntryCount());
+                Log.d(TAG, "departureTitle нажат");
+                Intent i = new Intent(getActivity(),SearchActivity.class);
+                i.putExtra(SearchFragment.EXTRA_SEARCH_DATA,DepartureData.getInstance().getData());
+                startActivityForResult(i,REQUEST_DEPARTUTE_STATION);
             }
         });
-        return v;
 
+
+        arrivelTitle.setFocusable(false);
+        //Обрабатка клика по полю станции прибытия
+        arrivelTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "arrivelTitle нажат");
+                Intent i = new Intent(getActivity(),SearchActivity.class);
+                i.putExtra(SearchFragment.EXTRA_SEARCH_DATA,DepartureData.getInstance().getData());
+                startActivityForResult(i,REQUEST_ARRIVEL_STATION);
+
+            }
+        });
+
+
+        dateEditText.setFocusable(false);
+        dateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "Выбор даты нажат");
+                FragmentManager fm = getActivity().getFragmentManager();
+                DatePickerFragment dp = new DatePickerFragment();
+                dp.setTargetFragment(TimingFragment.this,REQUEST_DATE);
+                dp.show(fm,DIALOG_DATE);
+
+            }
+        });
+
+        return v;
     }
+
+
+
+//    private void initDatePicker(){
+//        Calendar newCalendar=Calendar.getInstance(); // объект типа Calendar мы будем использовать для получения даты
+//        final SimpleDateFormat dateFormat=new SimpleDateFormat("dd.MM.yyyy"); // это строка нужна для дальнейшего преобразования даты в строку
+//        //создаем объект типа DatePickerDialog и инициализируем его конструктор обработчиком события выбора даты и данными для даты по умолчанию
+//        datePickerDlg=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+//            // функция onDateSet обрабатывает шаг 2: отображает выбранные нами данные в элементе EditText
+//            @Override
+//            public void onDateSet(DatePickerFragment view, int year, int monthOfYear, int dayOfMonth) {
+//                Calendar newCal=Calendar.getInstance();
+//                newCal.set(year,monthOfYear,dayOfMonth);
+//                dateEditText.setText(dateFormat.format(newCal.getTime()));
+//            }
+//        },newCalendar.get(Calendar.YEAR),newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+//    }
+
+    /**
+     * Метод обновления информации на View
+     */
+    private void updateView()
+    {
+        Log.d(TAG, "Обновление представления TimingFragment");
+        String text="";                                                 //полный текст в поле станции
+        String hint = getText(R.string.enter_station_name).toString();    //hint (если нужен)
+
+        //Обновляем editText c пунктом отправления
+        String sationStr  = TripModel.getInstance().getFromStation().getStation();
+        if (sationStr.length()>0)
+        {
+            text = TripModel.getInstance().getFromStation().getCity()+", "+
+                    sationStr ;
+            hint = "";
+        }
+        departureTitle.setText(text);
+        departureTitle.setHint(hint);
+
+
+        //Обновляем editText c пунктом прибытия
+        hint = getText(R.string.enter_station_name).toString();
+        text = "";
+        sationStr = TripModel.getInstance().getToStation().getStation();
+        if (sationStr.length()>0)
+        {
+            text = TripModel.getInstance().getToStation().getCity()+", "+
+                    sationStr ;
+            hint = "";
+        }
+        arrivelTitle.setText(text);
+        arrivelTitle.setHint(hint);
+
+        //Обновляем editText с датой поездки
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, ''yy");
+        Date d = TripModel.getInstance().getDateOfTrip();
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, 1);
+        hint = getText(R.string.choose_date).toString();
+        String dateString ="";
+        if (d.getTime() >= c.getTime().getTime())
+        {
+            hint = "";
+            dateString = sdf.format(TripModel.getInstance().getDateOfTrip());
+        }
+        dateEditText.setText(dateString);
+        dateEditText.setHint(hint);
+
+        Log.d(TAG, "Обновление представления TimingFragment прошло успешно");
+    }
+
+    /**
+     * Метод получения данных из вызванных активностей
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "Получаем ответ от с кодом "+requestCode);
+        if (data != null)
+        {
+            Log.d(TAG, "Интент не пустой");
+            StationModel currentStation;
+            switch (requestCode)
+            {
+                case REQUEST_DEPARTUTE_STATION:
+                    currentStation = (StationModel) data.getSerializableExtra(SearchFragment.EXTRA_FOUND_ITEM);
+                    //Обновляем модель поездки
+                    TripModel.getInstance().setFromStation(currentStation);
+                    Log.d(TAG, "Информация о станции отправления изменена");
+                    break;
+                case REQUEST_ARRIVEL_STATION:
+                    currentStation = (StationModel) data.getSerializableExtra(SearchFragment.EXTRA_FOUND_ITEM);
+                    //Обновляем модель поездки
+                    TripModel.getInstance().setToStation(currentStation);
+                    Log.d(TAG, "Информация о прибытия изменена");
+                    break;
+                case REQUEST_DATE:
+                    Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+                    TripModel.getInstance().setDateOfTrip(date);
+                    Log.d(TAG, "Информация о дате поездки изменена");
+                    break;
+            }
+            updateView();
+        }
+
+
+//            StationModel currentStation;
+//            if (requestCode == REQUEST_DEPARTUTE_STATION)
+//            {
+//                currentStation = (StationModel) data.getSerializableExtra(SearchFragment.EXTRA_FOUND_ITEM);
+//                //Обновляем модель поездки
+//                TripModel.getInstance().setFromStation(currentStation);
+//            }
+//            if (requestCode ==REQUEST_ARRIVEL_STATION)
+//            {
+//                currentStation = (StationModel) data.getSerializableExtra(SearchFragment.EXTRA_FOUND_ITEM);
+//                //Обновляем модель поездки
+//                TripModel.getInstance().setToStation(currentStation);
+//            }
+//
+//            if (requestCode == REQUEST_DATE)
+//            {
+//            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+//            TripModel.getInstance().setDateOfTrip(date);
+//            }
+//
+//        updateView();
+    }
+
+
+
 }
 

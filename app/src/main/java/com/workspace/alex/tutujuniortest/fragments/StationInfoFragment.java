@@ -1,5 +1,6 @@
 package com.workspace.alex.tutujuniortest.fragments;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,18 +12,15 @@ import android.widget.TextView;
 import com.workspace.alex.tutujuniortest.R;
 import com.workspace.alex.tutujuniortest.models.StationModel;
 
-import java.io.Serializable;
-
-
 /**
  * Фрагмент содержащий детальную информацию о выбранной станции
  * Created by Alex on 11.09.2016.
  */
 public class StationInfoFragment extends Fragment {
 
-    public static final String EXTRA_STATION_INFO="com.workspace.alex.tutujunior.stationinfofragment";
+    public static final String EXTRA_STATION_INFO="com.workspace.alex.tutujunior.stationinfo";
 
-    private StationModel station;
+    private StationModel station;   //Модель станции (о которой будет выводиться информация)
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +34,7 @@ public class StationInfoFragment extends Fragment {
         {
             station = (StationModel) getArguments().getSerializable(EXTRA_STATION_INFO);
         }
+
     }
 
     @Nullable

@@ -9,8 +9,9 @@
     <string name="menu_header_text">TuTu junior Application</string>
     <string name="departure_station_title">Станция отправления:</string>
     <string name="arrivel_station_title">Станция прибытия:</string>
-    <string name="enter_station_name">Введите название станции</string>
-    <string name="about_text">Приложение носит ознакомительный характер и предназначено для первоначальной оценки возможностей разработчика</string>
+    <string name="enter_station_name">Выбрать станцию</string>
+    <string name="about_text">Приложение носит ознакомительный характер и предназначено для первоначальной
+        оценки возможностей разработчика</string>
     <string name="author_app_title">Разработчик:</string>
     <string name="author_app_name">Шигаев Александр Константинович</string>
     <string name="station_title">Станция:</string>
@@ -18,4 +19,6 @@
     <string name="station_info_title">Информация:</string>
     <string name="city_title">Город:</string>
     <string name="region_title">Регион:</string>
+    <string name="choose_date">Выберите дату поездки</string>
+    <string name="ready">Готово</string>
 </resources>
