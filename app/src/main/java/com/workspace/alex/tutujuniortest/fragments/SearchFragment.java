@@ -61,10 +61,13 @@ public class SearchFragment extends Fragment {
         adapter = new CityAdapter(allStations);
     }
 
+
+    //Возобновление фрагмента
     @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG,"Вызван onResume");
+        //Обновляем адаптер
         adapter.notifyDataSetChanged();
 
     }
@@ -153,12 +156,14 @@ public class SearchFragment extends Fragment {
     }
 
 
+    //Оновляем список городов в адаптере
     private void updateList(String inputText) {
         ArrayList<StationModel> foundStation = new ArrayList<StationModel>();
         String enterText = inputText.toLowerCase().trim();
         Log.d(TAG, "Обновление списка на данный момент: " + adapter.getCount() + "элементов");
         adapter.clear();
         Log.d(TAG, "Очистка адаптера теперь: " + adapter.getCount() + "элементов");
+        //Если ничего не ввели
         if (enterText.equals("")) {
             for (StationModel station : allStations) {
                 foundStation.add(station);
@@ -174,12 +179,14 @@ public class SearchFragment extends Fragment {
             }
         }
         adapter.addAll(foundStation);
+        //Обновляемся
         adapter.notifyDataSetChanged();
 
     }
 
 
 
+    //Создание фрагмента с установленым хранилищем данных
     public static SearchFragment newInstance(ArrayList<CityModel> model)
     {
         Bundle args = new Bundle();

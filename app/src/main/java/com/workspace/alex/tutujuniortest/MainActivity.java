@@ -192,10 +192,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        ArrivelData.getInstance().getData().clear();
-        ArrivelData.getInstance().getData().trimToSize();
-        DepartureData.getInstance().getData().clear();
-        DepartureData.getInstance().getData().trimToSize();
+//        ArrivelData.getInstance().getData().clear();
+//        ArrivelData.getInstance().getData().trimToSize();
+//        DepartureData.getInstance().getData().clear();
+//        DepartureData.getInstance().getData().trimToSize();
         super.onDestroy();
     }
 }

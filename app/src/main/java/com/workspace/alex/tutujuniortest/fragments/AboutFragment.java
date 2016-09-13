@@ -31,6 +31,7 @@ public class AboutFragment extends Fragment {
         versionTextView = (TextView) v.findViewById(R.id.about_version);
         String versionName = null;
         try {
+            //Достаем версия из манифеста проекта
             versionName = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

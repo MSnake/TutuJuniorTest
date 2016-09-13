@@ -71,7 +71,7 @@ public class DatePickerFragment extends DialogFragment {
                 .create();
     }
 
-
+    //Отправляем результаты
     private void sendResult(int resultCode)
     {
         Log.d(TAG,"Отправка резульатов");
@@ -86,6 +86,7 @@ public class DatePickerFragment extends DialogFragment {
 
     }
 
+    //Создание фрагмента с установленной датой в аргементе
     public static DatePickerFragment newInstance(Date date)
     {
         Log.d(TAG,"Создание фрагмента "+TAG );

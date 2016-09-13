@@ -53,6 +53,7 @@ public class StationInfoFragment extends Fragment {
         return v;
     }
 
+    //Создание фрагмента с установленной моделью станции
     public static StationInfoFragment newInstance(StationModel model)
     {
         Bundle args = new Bundle();
