@@ -189,4 +189,13 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        ArrivelData.getInstance().getData().clear();
+        ArrivelData.getInstance().getData().trimToSize();
+        DepartureData.getInstance().getData().clear();
+        DepartureData.getInstance().getData().trimToSize();
+        super.onDestroy();
+    }
 }
