@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.workspace.alex.tutujuniortest.R;
+import com.workspace.alex.tutujuniortest.models.TripModel;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -27,10 +28,23 @@ public class DatePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
+        setUpDate  = (Date) getArguments().getSerializable(EXTRA_DATE);
         // определяем текущую дату
+
+        Calendar nextDay = Calendar.getInstance();
+        //Добавляем 1 день к текущей дате
+        nextDay.add(Calendar.DATE, 1);
+
         Calendar c = Calendar.getInstance();
         //Добавляем 1 день к текущей дате
         c.add(Calendar.DATE, 1);
+        //Если даата была выбрана ранее проверяем больше ли она завтрашнего дня
+        // если больше то отталкиваемся в дальнейшем от нее
+        if (setUpDate.getTime() > c.getTime().getTime())
+        {
+            c.setTime(setUpDate);
+        }
+
         //определяем год, месяц, день с учетом добавленного дня
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -38,7 +52,7 @@ public class DatePickerFragment extends DialogFragment {
 
         View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_date,null);
         DatePicker datePicker = (DatePicker) v.findViewById(R.id.dialog_date_datePicker);
-        datePicker.setMinDate(c.getTimeInMillis());
+        datePicker.setMinDate(nextDay.getTimeInMillis());
         datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
@@ -67,6 +81,16 @@ public class DatePickerFragment extends DialogFragment {
         Intent i = new Intent();
         i.putExtra(EXTRA_DATE, setUpDate);
         getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,i);
+
+    }
+
+    public static DatePickerFragment newInstance(Date date)
+    {
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_DATE,date);
+        DatePickerFragment dP = new DatePickerFragment();
+        dP.setArguments(args);
+        return dP;
 
     }
 

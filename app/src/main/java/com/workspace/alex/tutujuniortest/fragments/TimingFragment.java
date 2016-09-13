@@ -93,7 +93,7 @@ public class TimingFragment extends Fragment {
             public void onClick(View view) {
                 Log.d(TAG, "Выбор даты нажат");
                 FragmentManager fm = getActivity().getFragmentManager();
-                DatePickerFragment dp = new DatePickerFragment();
+                DatePickerFragment dp = DatePickerFragment.newInstance(TripModel.getInstance().getDateOfTrip());
                 dp.setTargetFragment(TimingFragment.this,REQUEST_DATE);
                 dp.show(fm,DIALOG_DATE);
 
@@ -142,7 +142,7 @@ public class TimingFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, ''yy");
         Date d = TripModel.getInstance().getDateOfTrip();
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 1);
+        c.add(Calendar.DATE, 0);
         hint = getText(R.string.choose_date).toString();
         String dateString ="";
         if (d.getTime() >= c.getTime().getTime())
