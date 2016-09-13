@@ -26,6 +26,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG,"Создание активности "+TAG);
         setContentView(R.layout.activity_search);
 
         //Выводим фрагмент с выбором станций на экран
@@ -46,6 +47,7 @@ public class SearchActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             //При нажатии кнопки home(стрелка назад)
             case android.R.id.home:
+                Log.d(TAG,"Нажали назад в приложении" );
                 //Смотри бэк стэк фрагментов, если есть возвращаемся на 1, если нет,
                 //значит мы в корне стека фрагментов --> завершить активность
                 if (getFragmentManager().getBackStackEntryCount() > 0) {
@@ -61,6 +63,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.d(TAG,"Нажали назад аппапартно" );
         if (getFragmentManager().getBackStackEntryCount()>0)
         {
             getFragmentManager().popBackStack();

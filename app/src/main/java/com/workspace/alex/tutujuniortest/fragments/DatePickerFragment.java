@@ -18,11 +18,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
+ * Фрагмент выбоа даты поездки
  * Created by Alex on 12.09.2016.
  */
 public class DatePickerFragment extends DialogFragment {
-    private static final String TAG = "DatePickerFragment";
-    public static final String EXTRA_DATE = "com.workspace.alex.tutujunior.date";
+    private static final String TAG = "DatePickerFragment";  //logCat тэг
+    public static final String EXTRA_DATE = "com.workspace.alex.tutujunior.date"; //ключ для хранения даты
     private Date setUpDate;  //Устанавливаемая дата
 
     @Override
@@ -57,6 +58,7 @@ public class DatePickerFragment extends DialogFragment {
             @Override
             public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
                 setUpDate = new GregorianCalendar(year, month, day).getTime();
+                Log.d(TAG,"дата изменена" );
             }
         });
         return new android.support.v7.app.AlertDialog.Builder(getActivity()).setView(v).setTitle(R.string.choose_date).
@@ -86,6 +88,7 @@ public class DatePickerFragment extends DialogFragment {
 
     public static DatePickerFragment newInstance(Date date)
     {
+        Log.d(TAG,"Создание фрагмента "+TAG );
         Bundle args = new Bundle();
         args.putSerializable(EXTRA_DATE,date);
         DatePickerFragment dP = new DatePickerFragment();
