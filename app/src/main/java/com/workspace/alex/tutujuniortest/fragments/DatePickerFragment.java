@@ -11,26 +11,41 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.workspace.alex.tutujuniortest.R;
+import com.workspace.alex.tutujuniortest.models.TripModel;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
+ * Фрагмент выбоа даты поездки
  * Created by Alex on 12.09.2016.
  */
 public class DatePickerFragment extends DialogFragment {
-    private static final String TAG = "DatePickerFragment";
-    public static final String EXTRA_DATE = "com.workspace.alex.tutujunior.date";
+    private static final String TAG = "DatePickerFragment";  //logCat тэг
+    public static final String EXTRA_DATE = "com.workspace.alex.tutujunior.date"; //ключ для хранения даты
     private Date setUpDate;  //Устанавливаемая дата
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
+        setUpDate  = (Date) getArguments().getSerializable(EXTRA_DATE);
         // определяем текущую дату
+
+        Calendar nextDay = Calendar.getInstance();
+        //Добавляем 1 день к текущей дате
+        nextDay.add(Calendar.DATE, 1);
+
         Calendar c = Calendar.getInstance();
         //Добавляем 1 день к текущей дате
         c.add(Calendar.DATE, 1);
+        //Если даата была выбрана ранее проверяем больше ли она завтрашнего дня
+        // если больше то отталкиваемся в дальнейшем от нее
+        if (setUpDate.getTime() > c.getTime().getTime())
+        {
+            c.setTime(setUpDate);
+        }
+
         //определяем год, месяц, день с учетом добавленного дня
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -38,11 +53,12 @@ public class DatePickerFragment extends DialogFragment {
 
         View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_date,null);
         DatePicker datePicker = (DatePicker) v.findViewById(R.id.dialog_date_datePicker);
-        datePicker.setMinDate(c.getTimeInMillis());
+        datePicker.setMinDate(nextDay.getTimeInMillis());
         datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int year, int month, int day) {
                 setUpDate = new GregorianCalendar(year, month, day).getTime();
+                Log.d(TAG,"дата изменена" );
             }
         });
         return new android.support.v7.app.AlertDialog.Builder(getActivity()).setView(v).setTitle(R.string.choose_date).
@@ -67,6 +83,17 @@ public class DatePickerFragment extends DialogFragment {
         Intent i = new Intent();
         i.putExtra(EXTRA_DATE, setUpDate);
         getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,i);
+
+    }
+
+    public static DatePickerFragment newInstance(Date date)
+    {
+        Log.d(TAG,"Создание фрагмента "+TAG );
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_DATE,date);
+        DatePickerFragment dP = new DatePickerFragment();
+        dP.setArguments(args);
+        return dP;
 
     }
 
